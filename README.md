@@ -12,7 +12,8 @@ Aplikasi web video singkat mirip TikTok: kasih **love** dan kirim **koin** ke kr
 
 ## Live
 
-Setelah GitHub Pages aktif: [https://abah.github.io/live-give-away/](https://abah.github.io/live-give-away/)
+- Cloudflare Pages: `https://nyala.<akun-kamu>.pages.dev` (setelah deploy)
+- GitHub Pages (opsional): [https://abah.github.io/live-give-away/](https://abah.github.io/live-give-away/)
 
 ## Menjalankan
 
@@ -28,21 +29,34 @@ npm run build
 npm run preview
 ```
 
-Build khusus GitHub Pages:
+## Deploy ke Cloudflare Pages
+
+1. Buat API token di Cloudflare dengan permission **Cloudflare Pages — Edit**
+2. Catat **Account ID** (dashboard Cloudflare → Overview sebelah kanan)
+3. Simpan sebagai secret repo GitHub:
+   - `CLOUDFLARE_API_TOKEN`
+   - `CLOUDFLARE_ACCOUNT_ID`
+4. Push ke `main` — workflow `.github/workflows/deploy-cloudflare.yml` akan build & publish
+
+Deploy manual:
+
+```bash
+export CLOUDFLARE_API_TOKEN=...
+export CLOUDFLARE_ACCOUNT_ID=...
+npm run deploy:cloudflare
+```
+
+## Deploy GitHub Pages (opsional)
 
 ```bash
 npm run build:pages
 ```
 
-## Deploy
-
-Push ke `main` akan men-trigger workflow **Deploy to GitHub Pages** (`.github/workflows/deploy-pages.yml`).
-
-Di repo Settings → Pages, set Source ke **GitHub Actions**.
+Push ke `main` juga men-trigger `.github/workflows/deploy-pages.yml`. Di Settings → Pages, set Source ke **GitHub Actions**.
 
 ## Stack
 
 - React + TypeScript
 - Vite
-- CSS modern (tanpa framework UI)
-- GitHub Pages + Actions
+- Cloudflare Pages (Wrangler)
+- GitHub Actions

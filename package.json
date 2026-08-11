@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:pages": "GITHUB_PAGES=true tsc -b && GITHUB_PAGES=true vite build",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=nyala",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -21,7 +22,8 @@
     "@vitejs/plugin-react": "^6.0.4",
     "oxlint": "^1.75.0",
     "typescript": "~6.0.2",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "wrangler": "^4.28.0"
   },
   "description": "Nyala — short videos with love & coin gifts"
 }
