@@ -1,0 +1,125 @@
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import type { Clip } from '../data/videos'
+import { formatCount } from '../lib/format'
+
+type Props = {
+  clip: Clip
+  active: boolean
+  loved: boolean
+  loves: number
+  coins: number
+  onLove: (clientX: number, clientY: number) => void
+  onOpenCoins: () => void
+}
+
+export function VideoCard({
+  clip,
+  active,
+  loved,
+  loves,
+  coins,
+  onLove,
+  onOpenCoins,
+}: Props) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const lastTapRef = useRef(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (active) {
+      video.currentTime = 0
+      void video.play().then(() => setPaused(false)).catch(() => setPaused(true))
+    } else {
+      video.pause()
+    }
+  }, [active])
+
+  function handleTap(event: MouseEvent<HTMLElement>) {
+    const now = Date.now()
+    if (now - lastTapRef.current < 280) {
+      onLove(event.clientX, event.clientY)
+      lastTapRef.current = 0
+      return
+    }
+    lastTapRef.current = now
+
+    const video = videoRef.current
+    if (!video) return
+    if (video.paused) {
+      void video.play()
+      setPaused(false)
+    } else {
+      video.pause()
+      setPaused(true)
+    }
+  }
+
+  return (
+    <article className={`clip ${active ? 'is-active' : ''}`}>
+      <div className="clip__stage" onClick={handleTap}>
+        <video
+          ref={videoRef}
+          className="clip__video"
+          src={clip.videoUrl}
+          poster={clip.poster}
+          playsInline
+          loop
+          muted
+          preload="metadata"
+        />
+        <div className="clip__veil" />
+        {paused && active && (
+          <div className="clip__paused" aria-hidden="true">
+            <span />
+          </div>
+        )}
+      </div>
+
+      <div className="clip__meta">
+        <p className="clip__handle">{clip.handle}</p>
+        <h2 className="clip__caption">{clip.caption}</h2>
+        <p className="clip__music">
+          <span aria-hidden="true">♪</span> {clip.music}
+        </p>
+      </div>
+
+      <aside className="clip__actions">
+        <div className="creator-avatar" aria-hidden="true">
+          {clip.creator.slice(0, 1)}
+        </div>
+
+        <button
+          type="button"
+          className={`action-btn ${loved ? 'is-loved' : ''}`}
+          aria-pressed={loved}
+          aria-label={loved ? 'Batalkan love' : 'Love'}
+          onClick={(event) => {
+            event.stopPropagation()
+            onLove(event.clientX, event.clientY)
+          }}
+        >
+          <span className="action-btn__icon" aria-hidden="true">
+            ♥
+          </span>
+          <span>{formatCount(loves)}</span>
+        </button>
+
+        <button
+          type="button"
+          className="action-btn action-btn--coin"
+          aria-label="Kirim koin"
+          onClick={(event) => {
+            event.stopPropagation()
+            onOpenCoins()
+          }}
+        >
+          <span className="action-btn__icon coin-orb" aria-hidden="true" />
+          <span>{formatCount(coins)}</span>
+        </button>
+      </aside>
+    </article>
+  )
+}
