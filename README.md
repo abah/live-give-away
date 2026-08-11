@@ -12,7 +12,7 @@ Aplikasi web video singkat mirip TikTok: kasih **love** dan kirim **koin** ke kr
 
 ## Live
 
-- Cloudflare Pages: `https://nyala.<akun-kamu>.pages.dev` (setelah deploy)
+- Cloudflare Pages: [https://nyala-7n7.pages.dev/](https://nyala-7n7.pages.dev/)
 - GitHub Pages (opsional): [https://abah.github.io/live-give-away/](https://abah.github.io/live-give-away/)
 
 ## Menjalankan
