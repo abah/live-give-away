@@ -1,5 +1,6 @@
-import { useEffect, type CSSProperties } from 'react'
+import { useEffect } from 'react'
 import type { GiftIntensity } from '../data/videos'
+import { WhaleParticleField } from './WhaleParticleField'
 
 export type TakeoverEvent = {
   id: string
@@ -19,7 +20,7 @@ type Props = {
 const DURATIONS: Record<GiftIntensity, number> = {
   soft: 1400,
   mid: 2600,
-  epic: 4800,
+  epic: 5400,
 }
 
 export function GiftTakeover({ event, onDone }: Props) {
@@ -80,79 +81,71 @@ function MidTakeover({ event }: { event: TakeoverEvent }) {
 function WhaleTakeover({ event }: { event: TakeoverEvent }) {
   return (
     <div className="takeover takeover--epic takeover--whale" aria-live="assertive">
-      <div className="whale-sea" aria-hidden="true">
-        <div className="whale-sea__depth" />
-        <div className="whale-sea__rays" />
-        <div className="whale-sea__caustic" />
-        {Array.from({ length: 18 }, (_, i) => (
-          <span
-            key={i}
-            className="whale-bubble"
-            style={
-              {
-                '--bx': `${8 + ((i * 17) % 84)}%`,
-                '--bd': `${1.8 + (i % 5) * 0.35}s`,
-                '--bs': `${0.35 + (i % 4) * 0.2}rem`,
-                '--bdelay': `${(i % 7) * 0.18}s`,
-              } as CSSProperties
-            }
-          />
-        ))}
+      <WhaleParticleField active durationMs={5400} />
+
+      <div className="whale-sea whale-sea--lite" aria-hidden="true">
+        <div className="whale-sea__beams" />
+        <div className="whale-shock" />
+        <div className="whale-shock whale-shock--delay" />
       </div>
 
       <div className="whale-stage" aria-hidden="true">
-        <svg className="whale-svg" viewBox="0 0 640 280" fill="none">
+        <div className="whale-glow" />
+        <svg className="whale-svg" viewBox="0 0 720 300" fill="none">
           <defs>
-            <linearGradient id="whaleBody" x1="40" y1="40" x2="600" y2="240" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#9AD7FF" />
-              <stop offset="0.45" stopColor="#4F8CFF" />
-              <stop offset="1" stopColor="#1B3F8A" />
+            <linearGradient id="whaleBody" x1="40" y1="40" x2="680" y2="250" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#D7F3FF" />
+              <stop offset="0.35" stopColor="#6EB6FF" />
+              <stop offset="0.7" stopColor="#3B7EFF" />
+              <stop offset="1" stopColor="#163B8C" />
             </linearGradient>
-            <linearGradient id="whaleGlow" x1="120" y1="40" x2="520" y2="220" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FFFFFF" stopOpacity="0.55" />
+            <linearGradient id="whaleGlow" x1="120" y1="40" x2="560" y2="220" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#FFFFFF" stopOpacity="0.85" />
               <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
             </linearGradient>
-            <filter id="whaleBlur" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2.2" />
+            <filter id="whaleSoft" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="1.4" />
+            </filter>
+            <filter id="whaleAura" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="10" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
           </defs>
-          <ellipse cx="320" cy="250" rx="210" ry="18" fill="#041018" opacity="0.35" filter="url(#whaleBlur)" />
-          <g className="whale-body">
+          <ellipse cx="340" cy="258" rx="230" ry="18" fill="#041018" opacity="0.28" filter="url(#whaleSoft)" />
+          <g className="whale-body" filter="url(#whaleAura)">
             <path
-              d="M90 160c40-62 120-96 210-96 78 0 148 24 198 62 28 22 62 34 98 30-36 28-78 42-124 42-18 0-34-2-50-6-10 24-34 40-62 40-40 0-70-28-74-64-42-8-84-8-126 0-28 6-52-10-70-38z"
+              d="M70 168c48-70 140-108 240-108 88 0 168 28 224 72 32 24 72 38 112 34-42 32-90 48-142 48-20 0-38-2-56-7-12 28-40 46-72 46-46 0-80-32-84-74-48-8-96-8-144 0-32 6-58-12-78-41z"
               fill="url(#whaleBody)"
             />
             <path
-              d="M150 148c46-34 110-52 176-48 58 4 108 24 146 54"
+              d="M150 150c54-38 128-58 204-52 66 4 124 28 168 62"
               stroke="url(#whaleGlow)"
-              strokeWidth="10"
+              strokeWidth="12"
               strokeLinecap="round"
-              opacity="0.55"
+              opacity="0.7"
             />
-            <circle cx="458" cy="126" r="7" fill="#07131F" />
-            <circle cx="460" cy="124" r="2.4" fill="#E8F6FF" />
-            <path
-              d="M96 156c-28 18-48 20-66 10 18 2 34-2 50-12z"
-              fill="#2E6CC4"
-            />
-            <path
-              d="M248 188c22 26 10 46-18 52 34-2 58-22 50-52z"
-              fill="#2459A8"
-            />
+            <circle cx="510" cy="128" r="8" fill="#07131F" />
+            <circle cx="512.5" cy="125.5" r="2.8" fill="#E8F6FF" />
+            <path d="M78 164c-32 20-54 22-74 10 20 2 38-2 56-14z" fill="#2E6CC4" />
+            <path d="M268 198c26 30 12 52-20 58 38-2 66-24 56-58z" fill="#2459A8" />
             <g className="whale-spout">
-              <path d="M360 92c6-28 2-48-8-68" stroke="#D7F2FF" strokeWidth="5" strokeLinecap="round" opacity="0.8" />
-              <path d="M372 96c10-26 18-44 14-66" stroke="#BFE8FF" strokeWidth="4" strokeLinecap="round" opacity="0.65" />
-              <circle cx="348" cy="28" r="7" fill="#EAF8FF" opacity="0.75" />
-              <circle cx="366" cy="36" r="5" fill="#D5F0FF" opacity="0.65" />
-              <circle cx="384" cy="30" r="6" fill="#F3FBFF" opacity="0.7" />
+              <path d="M400 88c8-34 2-56-10-78" stroke="#E7F8FF" strokeWidth="6" strokeLinecap="round" opacity="0.9" />
+              <path d="M416 94c12-30 22-50 16-76" stroke="#C8ECFF" strokeWidth="4.5" strokeLinecap="round" opacity="0.7" />
+              <circle cx="384" cy="20" r="9" fill="#F4FCFF" opacity="0.85" />
+              <circle cx="404" cy="30" r="6" fill="#D9F2FF" opacity="0.75" />
+              <circle cx="424" cy="22" r="7" fill="#FFFFFF" opacity="0.8" />
             </g>
           </g>
         </svg>
         <div className="whale-splash" />
+        <div className="whale-splash whale-splash--soft" />
       </div>
 
       <div className="takeover__banner takeover__banner--epic">
-        <p className="takeover__eyebrow">Gift</p>
+        <p className="takeover__eyebrow">Gift legend</p>
         <h2>{event.giftName}</h2>
         <p className="takeover__line">
           <strong>{event.sender}</strong> → {event.creator}
