@@ -15,7 +15,7 @@ export const clips: Clip[] = [
     id: 'clip-1',
     creator: 'Raka Motion',
     handle: '@rakamotion',
-    caption: 'Sunset di rooftop — vibe malam ini beda 🔥',
+    caption: 'LIVE vibe rooftop — kirim Paus biar layar meledak',
     music: 'Original Sound · Raka Motion',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
@@ -28,7 +28,7 @@ export const clips: Clip[] = [
     id: 'clip-2',
     creator: 'Maya Kitchen',
     handle: '@mayakitchen',
-    caption: 'Resep 60 detik: mie pedas level malam minggu',
+    caption: 'Live masak malam ini — gift kecil juga diterima',
     music: 'Sizzle Beat · Studio Nyala',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
@@ -41,7 +41,7 @@ export const clips: Clip[] = [
     id: 'clip-3',
     creator: 'Dio Street',
     handle: '@diostreet',
-    caption: 'Skate line di kota — kasih love kalau landingnya clean',
+    caption: 'Skate live di kota — Paus = screen takeover',
     music: 'City Pulse · Dio Street',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
@@ -54,7 +54,7 @@ export const clips: Clip[] = [
     id: 'clip-4',
     creator: 'Luna Live',
     handle: '@lunalive',
-    caption: 'Cover akustik singkat — kirim koin biar lanjut full song 💛',
+    caption: 'Cover akustik live — Paus buat encore',
     music: 'Soft Strings · Luna Live',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
@@ -67,7 +67,7 @@ export const clips: Clip[] = [
     id: 'clip-5',
     creator: 'Arka Travel',
     handle: '@arkatravel',
-    caption: 'Jalan kecil yang jarang dilalui — simpan buat liburan nanti',
+    caption: 'Live jalan-jalan — kasih love atau kirim gift',
     music: 'Wander Loop · Arka Travel',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
@@ -78,15 +78,54 @@ export const clips: Clip[] = [
   },
 ]
 
+export type GiftIntensity = 'soft' | 'mid' | 'epic'
+
 export type GiftPack = {
   id: string
   name: string
   coins: number
+  intensity: GiftIntensity
+  blurb: string
 }
 
 export const giftPacks: GiftPack[] = [
-  { id: 'rose', name: 'Mawar', coins: 1 },
-  { id: 'star', name: 'Bintang', coins: 10 },
-  { id: 'crown', name: 'Mahkota', coins: 50 },
-  { id: 'fire', name: 'Api', coins: 100 },
+  {
+    id: 'rose',
+    name: 'Mawar',
+    coins: 1,
+    intensity: 'soft',
+    blurb: 'Gift ringan',
+  },
+  {
+    id: 'star',
+    name: 'Bintang',
+    coins: 10,
+    intensity: 'soft',
+    blurb: 'Kilau cepat',
+  },
+  {
+    id: 'crown',
+    name: 'Mahkota',
+    coins: 50,
+    intensity: 'mid',
+    blurb: 'Highlight room',
+  },
+  {
+    id: 'fire',
+    name: 'Api',
+    coins: 100,
+    intensity: 'mid',
+    blurb: 'Room panas',
+  },
+  {
+    id: 'whale',
+    name: 'Paus Menyelam',
+    coins: 2150,
+    intensity: 'epic',
+    blurb: 'Screen takeover',
+  },
 ]
+
+export function getGiftById(id: string): GiftPack | undefined {
+  return giftPacks.find((gift) => gift.id === id)
+}

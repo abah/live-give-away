@@ -24,7 +24,7 @@ function defaultStats(): ClipStats {
 }
 
 export function useNyalaStore() {
-  const [wallet, setWallet] = useState(() => readJson(WALLET_KEY, 500))
+  const [wallet, setWallet] = useState(() => readJson(WALLET_KEY, 3000))
   const [loved, setLoved] = useState<Record<string, boolean>>(() =>
     readJson(LOVED_KEY, {}),
   )
@@ -77,7 +77,7 @@ export function useNyalaStore() {
     return true
   }
 
-  function topUp(amount = 200) {
+  function topUp(amount = 2500) {
     setWallet((prev) => prev + amount)
   }
 

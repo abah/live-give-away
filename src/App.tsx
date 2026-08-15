@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CoinPanel } from './components/CoinPanel'
 import { FloatingBursts, type Burst } from './components/FloatingBursts'
+import { GiftTakeover, type TakeoverEvent } from './components/GiftTakeover'
 import { VideoCard } from './components/VideoCard'
-import { clips } from './data/videos'
+import { clips, type GiftPack } from './data/videos'
 import { useNyalaStore } from './hooks/useNyalaStore'
 import './App.css'
+
+const SENDER = 'Kamu'
 
 export default function App() {
   const { wallet, loved, stats, toggleLove, sendCoins, topUp } = useNyalaStore()
@@ -12,6 +15,7 @@ export default function App() {
   const [coinClipId, setCoinClipId] = useState<string | null>(null)
   const [bursts, setBursts] = useState<Burst[]>([])
   const [toast, setToast] = useState<string | null>(null)
+  const [takeover, setTakeover] = useState<TakeoverEvent | null>(null)
   const feedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -42,6 +46,8 @@ export default function App() {
     setBursts((prev) => prev.filter((burst) => burst.id !== id))
   }, [])
 
+  const clearTakeover = useCallback(() => setTakeover(null), [])
+
   function spawnBurst(kind: Burst['kind'], x: number, y: number) {
     const id = `${kind}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
     setBursts((prev) => [...prev, { id, kind, x, y }])
@@ -53,15 +59,31 @@ export default function App() {
     if (!wasLoved) spawnBurst('love', x, y)
   }
 
-  function handleGift(amount: number, packName: string) {
+  function handleGift(gift: GiftPack) {
     if (!coinClipId) return
-    const ok = sendCoins(coinClipId, amount)
+    const clip = clips.find((item) => item.id === coinClipId)
+    if (!clip) return
+
+    const ok = sendCoins(coinClipId, gift.coins)
     if (!ok) {
       setToast('Koin tidak cukup. Isi ulang dulu.')
       return
     }
-    spawnBurst('coin', window.innerWidth * 0.72, window.innerHeight * 0.42)
-    setToast(`Kirim ${packName} · ${amount} koin`)
+
+    setCoinClipId(null)
+    setTakeover({
+      id: `${gift.id}-${Date.now()}`,
+      giftId: gift.id,
+      giftName: gift.name,
+      coins: gift.coins,
+      sender: SENDER,
+      creator: clip.creator,
+      intensity: gift.intensity,
+    })
+
+    if (gift.intensity === 'soft') {
+      spawnBurst('coin', window.innerWidth * 0.72, window.innerHeight * 0.42)
+    }
   }
 
   useEffect(() => {
@@ -71,25 +93,26 @@ export default function App() {
   }, [toast])
 
   const activeClip = clips.find((clip) => clip.id === coinClipId)
+  const shaking = takeover?.intensity === 'epic'
 
   return (
-    <div className="app">
+    <div className={`app${shaking ? ' app--shake' : ''}${takeover ? ' app--gift-lock' : ''}`}>
       <header className="topbar">
         <div className="brand">
           <span className="brand__mark" aria-hidden="true" />
           <div>
             <p className="brand__name">Nyala</p>
-            <p className="brand__tag">Love & koin buat kreator</p>
+            <p className="brand__tag">Live gift · Paus takeover</p>
           </div>
         </div>
         <button type="button" className="wallet-pill" onClick={() => topUp()}>
           <span className="wallet-pill__coin" aria-hidden="true" />
-          <span>{wallet}</span>
+          <span>{wallet.toLocaleString('id-ID')}</span>
           <small>+isi</small>
         </button>
       </header>
 
-      <main className="feed" ref={feedRef} aria-label="Feed video Nyala">
+      <main className="feed" ref={feedRef} aria-label="Feed live Nyala">
         {clips.map((clip) => {
           const clipStats = stats[clip.id] ?? { loves: clip.loves, coins: clip.coins }
           return (
@@ -109,7 +132,7 @@ export default function App() {
       </main>
 
       <nav className="dock" aria-label="Navigasi">
-        <span className="dock__item is-active">Beranda</span>
+        <span className="dock__item is-active">Live</span>
         <span className="dock__item">Temukan</span>
         <span className="dock__item dock__item--create" aria-hidden="true">
           +
@@ -126,11 +149,12 @@ export default function App() {
         onGift={handleGift}
         onTopUp={() => {
           topUp()
-          setToast('Dompet +200 koin')
+          setToast('Dompet +2.500 koin')
         }}
       />
 
       <FloatingBursts bursts={bursts} onDone={removeBurst} />
+      <GiftTakeover event={takeover} onDone={clearTakeover} />
 
       {toast && (
         <div className="toast" role="status">
