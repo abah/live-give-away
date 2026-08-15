@@ -152,10 +152,10 @@ function WhaleTakeover({ event }: { event: TakeoverEvent }) {
       </div>
 
       <div className="takeover__banner takeover__banner--epic">
-        <p className="takeover__eyebrow">Screen takeover</p>
+        <p className="takeover__eyebrow">Gift</p>
         <h2>{event.giftName}</h2>
         <p className="takeover__line">
-          <strong>{event.sender}</strong> mengirim ke {event.creator}
+          <strong>{event.sender}</strong> → {event.creator}
         </p>
         <p className="takeover__coins">{event.coins.toLocaleString('id-ID')} koin</p>
       </div>

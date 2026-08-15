@@ -110,14 +110,15 @@ export function VideoCard({
         <button
           type="button"
           className="action-btn action-btn--coin"
-          aria-label="Kirim koin"
+          aria-label="Kirim gift"
           onClick={(event) => {
             event.stopPropagation()
             onOpenCoins()
           }}
         >
           <span className="action-btn__icon coin-orb" aria-hidden="true" />
-          <span>{formatCount(coins)}</span>
+          <span>Gift</span>
+          <small className="action-btn__sub">{formatCount(coins)}</small>
         </button>
       </aside>
     </article>

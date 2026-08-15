@@ -280,6 +280,17 @@
   height: 1.25rem;
 }
 
+.action-btn__sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(246, 241, 232, 0.7);
+}
+
+.action-btn--coin .action-btn__icon {
+  border-color: rgba(242, 184, 75, 0.45);
+  background: rgba(242, 184, 75, 0.16);
+}
+
 .dock {
   position: absolute;
   inset: auto 0 0;
@@ -514,8 +525,7 @@
   animation: room-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
-.app--gift-lock .coin-sheet,
-.app--gift-lock .dock {
+.app--gift-lock .coin-sheet {
   opacity: 0;
   pointer-events: none;
 }
@@ -567,7 +577,7 @@
 .takeover__veil {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 40%, rgba(242, 184, 75, 0.22), rgba(8, 10, 14, 0.55) 70%);
+  background: radial-gradient(circle at 50% 40%, rgba(242, 184, 75, 0.16), rgba(8, 10, 14, 0.22) 70%);
   animation: veil-in 2.5s ease both;
 }
 
@@ -632,7 +642,7 @@
 }
 
 .takeover--epic {
-  background: #02080f;
+  background: transparent;
   animation: epic-fade 4.6s ease both;
 }
 
@@ -645,26 +655,27 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(120% 80% at 50% 120%, rgba(12, 90, 150, 0.55), transparent 55%),
-    linear-gradient(180deg, #04101c 0%, #06263f 42%, #0a4d6e 100%);
+    radial-gradient(90% 55% at 50% 45%, rgba(8, 70, 120, 0.28), transparent 62%),
+    linear-gradient(180deg, rgba(2, 10, 20, 0.18) 0%, rgba(4, 30, 50, 0.12) 45%, rgba(6, 50, 80, 0.22) 100%);
 }
 
 .whale-sea__rays {
   position: absolute;
   inset: -20%;
   background:
-    conic-gradient(from 200deg at 50% -10%, transparent 0 8%, rgba(180, 230, 255, 0.12) 10%, transparent 14%, rgba(180, 230, 255, 0.08) 18%, transparent 24%);
+    conic-gradient(from 200deg at 50% -10%, transparent 0 8%, rgba(180, 230, 255, 0.1) 10%, transparent 14%, rgba(180, 230, 255, 0.06) 18%, transparent 24%);
   animation: ray-sweep 4.6s ease-in-out both;
   mix-blend-mode: screen;
+  opacity: 0.75;
 }
 
 .whale-sea__caustic {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.08), transparent 25%),
-    radial-gradient(circle at 70% 55%, rgba(120, 210, 255, 0.12), transparent 30%),
-    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06), transparent 28%);
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.06), transparent 25%),
+    radial-gradient(circle at 70% 55%, rgba(120, 210, 255, 0.1), transparent 30%),
+    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.04), transparent 28%);
   animation: caustic-drift 4.6s ease-in-out both;
 }
 
@@ -675,25 +686,26 @@
   width: var(--bs);
   height: var(--bs);
   border-radius: 50%;
-  border: 1px solid rgba(210, 240, 255, 0.55);
-  background: rgba(180, 230, 255, 0.15);
+  border: 1px solid rgba(210, 240, 255, 0.45);
+  background: rgba(180, 230, 255, 0.12);
   animation: bubble-rise var(--bd) linear var(--bdelay) infinite;
 }
 
 .whale-stage {
   position: absolute;
-  inset: 12% 0 28%;
+  inset: 18% 0 22%;
   display: grid;
   place-items: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .whale-svg {
-  width: min(140%, 44rem);
+  width: min(125%, 36rem);
   height: auto;
-  filter: drop-shadow(0 18px 30px rgba(0, 20, 40, 0.45));
+  filter: drop-shadow(0 12px 24px rgba(0, 20, 40, 0.35));
   animation: whale-swim 4.4s cubic-bezier(0.22, 0.7, 0.25, 1) both;
   transform-origin: center;
+  opacity: 0.96;
 }
 
 .whale-spout {
@@ -707,13 +719,24 @@
   width: 70%;
   height: 3rem;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(210, 240, 255, 0.45), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(210, 240, 255, 0.28), transparent 70%);
   filter: blur(2px);
   animation: splash-bloom 4.4s ease-out both;
 }
 
 .takeover__banner--epic {
-  bottom: calc(5.8rem + env(safe-area-inset-bottom));
+  left: 1rem;
+  right: auto;
+  bottom: calc(6.4rem + env(safe-area-inset-bottom));
+  transform: none;
+  width: min(78%, 18rem);
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: rgba(6, 14, 24, 0.55);
+  border: 1px solid rgba(154, 215, 255, 0.28);
+  backdrop-filter: blur(10px);
+  animation: gift-ticker-in 4.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .takeover__banner--epic .takeover__eyebrow {
@@ -721,8 +744,13 @@
 }
 
 .takeover__banner--epic h2 {
-  font-size: clamp(1.7rem, 7vw, 2.4rem);
-  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  font-size: clamp(1.15rem, 4.5vw, 1.45rem);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.takeover__banner--epic .takeover__line,
+.takeover__banner--epic .takeover__coins {
+  color: rgba(230, 242, 255, 0.82);
 }
 
 @keyframes room-shake {
@@ -826,6 +854,25 @@
   100% {
     opacity: 0;
     transform: translate(-50%, -8px);
+  }
+}
+
+@keyframes gift-ticker-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-28px) scale(0.96);
+  }
+  12% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-12px) scale(0.98);
   }
 }
 
