@@ -1111,8 +1111,7 @@
   .topbar,
   .dock,
   .coin-sheet__panel,
-  .toast,
-  .takeover {
+  .toast {
     width: min(100%, 480px);
   }
 
