@@ -10,6 +10,7 @@ type Props = {
   coins: number
   onLove: (clientX: number, clientY: number) => void
   onOpenCoins: () => void
+  onEnterLive?: () => void
 }
 
 export function VideoCard({
@@ -20,6 +21,7 @@ export function VideoCard({
   coins,
   onLove,
   onOpenCoins,
+  onEnterLive,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const lastTapRef = useRef(0)
@@ -46,6 +48,11 @@ export function VideoCard({
     }
     lastTapRef.current = now
 
+    if (clip.isLive && onEnterLive) {
+      onEnterLive()
+      return
+    }
+
     const video = videoRef.current
     if (!video) return
     if (video.paused) {
@@ -58,7 +65,7 @@ export function VideoCard({
   }
 
   return (
-    <article className={`clip ${active ? 'is-active' : ''}`}>
+    <article className={`clip ${active ? 'is-active' : ''}${clip.isLive ? ' clip--live' : ''}`}>
       <div className="clip__stage" onClick={handleTap}>
         <video
           ref={videoRef}
@@ -71,11 +78,12 @@ export function VideoCard({
           preload="metadata"
         />
         <div className="clip__veil" />
-        {paused && active && (
+        {clip.isLive ? <span className="live-badge live-badge--card">LIVE</span> : null}
+        {paused && active && !clip.isLive ? (
           <div className="clip__paused" aria-hidden="true">
             <span />
           </div>
-        )}
+        ) : null}
       </div>
 
       <div className="clip__meta">
@@ -84,6 +92,18 @@ export function VideoCard({
         <p className="clip__music">
           <span aria-hidden="true">♪</span> {clip.music}
         </p>
+        {clip.isLive && onEnterLive ? (
+          <button
+            type="button"
+            className="clip__join-live"
+            onClick={(event) => {
+              event.stopPropagation()
+              onEnterLive()
+            }}
+          >
+            Masuk Live
+          </button>
+        ) : null}
       </div>
 
       <aside className="clip__actions">

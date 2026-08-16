@@ -8,6 +8,7 @@ export type Clip = {
   poster: string
   loves: number
   coins: number
+  isLive?: boolean
 }
 
 export const clips: Clip[] = [
@@ -23,6 +24,7 @@ export const clips: Clip[] = [
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
     loves: 12840,
     coins: 920,
+    isLive: true,
   },
   {
     id: 'clip-2',
@@ -36,6 +38,7 @@ export const clips: Clip[] = [
       'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80',
     loves: 8421,
     coins: 1540,
+    isLive: true,
   },
   {
     id: 'clip-3',
@@ -49,6 +52,7 @@ export const clips: Clip[] = [
       'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=900&q=80',
     loves: 22105,
     coins: 3102,
+    isLive: true,
   },
   {
     id: 'clip-4',
@@ -62,12 +66,13 @@ export const clips: Clip[] = [
       'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=900&q=80',
     loves: 15690,
     coins: 4820,
+    isLive: true,
   },
   {
     id: 'clip-5',
     creator: 'Arka Travel',
     handle: '@arkatravel',
-    caption: 'Live jalan-jalan — kasih love atau kirim gift',
+    caption: 'Jalan kecil yang jarang dilalui — simpan buat liburan nanti',
     music: 'Wander Loop · Arka Travel',
     videoUrl:
       'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
@@ -75,6 +80,7 @@ export const clips: Clip[] = [
       'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80',
     loves: 9733,
     coins: 1188,
+    isLive: false,
   },
 ]
 

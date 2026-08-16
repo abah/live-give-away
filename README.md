@@ -4,10 +4,11 @@ Aplikasi web video singkat mirip TikTok: kasih **love** dan kirim **koin** ke kr
 
 ## Fitur
 
-- Feed vertikal full-screen (scroll / swipe)
+- **Live video**: masuk room live, atau tap **+** untuk go-live pakai kamera
+- Feed vertikal full-screen (scroll / swipe) dengan badge LIVE
 - Double-tap atau tombol love dengan animasi
 - Live gift berjenjang: Mawar → Bintang → Mahkota → Api → **Paus Menyelam**
-- Animasi **screen takeover** untuk gift Paus (laut, paus berenang, splash, shake)
+- Animasi **screen takeover** untuk gift Paus (partikel canvas + paus berenang)
 - Dompet penonton (demo mulai 3.000 koin, isi ulang +2.500)
 - Progress love & koin tersimpan di `localStorage`
 
